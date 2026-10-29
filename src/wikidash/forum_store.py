@@ -14,7 +14,9 @@ from .archive7z import Archive7z
 from .forum_models import CategoryMeta, ThreadMeta
 from .store import read_json, write_json
 
-log = logging.getLogger(__name__)
+from .logging import create_logger
+
+log = create_logger(__name__)
 
 LATEST = "latest"
 # post id -> names of stored revisions ('latest' or a revision id)

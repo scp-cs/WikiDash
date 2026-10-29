@@ -22,7 +22,9 @@ from .forum_models import (
 from .forum_store import LATEST, ForumStore, KnownHtml
 from .progress import ErrorKind, NullReporter, Reporter
 
-log = logging.getLogger(__name__)
+from .logging import create_logger
+
+log = create_logger(__name__)
 
 THREAD_WORKERS = 3
 

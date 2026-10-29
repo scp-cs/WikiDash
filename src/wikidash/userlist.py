@@ -19,7 +19,9 @@ from .parsers.user_profile import parse_user_profile
 from .store import PersistentSet, read_json, write_json
 from .user_models import User
 
-log = logging.getLogger(__name__)
+from .logging import create_logger
+
+log = create_logger(__name__)
 
 BUCKET_SHIFT = 13
 PROFILE_URL = "https://www.wikidot.com/user:info/{username}"

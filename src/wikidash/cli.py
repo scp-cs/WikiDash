@@ -9,6 +9,7 @@ from .progress import StatusSink
 from .runner import WikiRunner, make_client, run_all
 from .scuttle import ScuttleConnector
 from .userlist import UserList
+from .logging import create_logger
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -17,16 +18,17 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("-v", "--verbose", action="store_true", help="debug logging")
     args = parser.parse_args(argv)
 
-    logging.basicConfig(
-        level=logging.DEBUG if args.verbose else logging.INFO,
-        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
-    )
+    create_logger(None)
+    
     try:
         config = load_config(args.config)
     except (OSError, ValueError, KeyError) as err:
         print(f"Cannot load config: {err}", file=sys.stderr)
         print("Pass a path or set the WIKICOMMA_CONFIG environment variable.", file=sys.stderr)
         return 1
+
+    if config.debug_config:
+        logging.getLogger('httpx').setLevel(logging.INFO if config.debug_config.httpx_logging else logging.WARNING)
 
     return archive(config)
 

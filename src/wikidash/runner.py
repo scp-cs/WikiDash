@@ -22,7 +22,9 @@ from .sync_pending import retry_pending_revisions
 from .userlist import UserList
 from .workspace import Workspace
 
-log = logging.getLogger(__name__)
+from .logging import create_logger
+
+log = create_logger(__name__)
 
 PAGE_WORKERS = 8
 PROGRESS_INTERVAL_SECONDS = 10

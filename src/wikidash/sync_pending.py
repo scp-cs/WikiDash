@@ -8,7 +8,9 @@ from .api import TRANSIENT_ERRORS
 from .progress import ErrorKind, NullReporter, Reporter
 from .workspace import Workspace
 
-log = logging.getLogger(__name__)
+from .logging import create_logger
+
+log = create_logger(__name__)
 
 # System pages that are huge and unimportant: give up on a failing revision at once.
 GIVE_UP_PREFIXES = ("nav:", "tech:")

@@ -28,6 +28,9 @@ class ProxyConfig:
     address: str
     port: int
 
+@dataclass(frozen=True)
+class DebugConfig:
+    httpx_logging: bool
 
 @dataclass(frozen=True)
 class Config:
@@ -42,6 +45,7 @@ class Config:
     socks_proxy: ProxyConfig | None = None
     blacklist: list[str] = field(default_factory=list)
     scuttle_url: str | None = None
+    debug_config: DebugConfig | None = None
 
     @classmethod
     def from_dict(cls, raw: dict[str, Any]) -> "Config":
@@ -61,6 +65,7 @@ class Config:
             ),
             http_proxy=ProxyConfig(**raw["http_proxy"]) if raw.get("http_proxy") else None,
             socks_proxy=ProxyConfig(**raw["socks_proxy"]) if raw.get("socks_proxy") else None,
+            debug_config=DebugConfig(**raw["debug"]) if raw.get("debug") else None,
             blacklist=raw.get("blacklist") or [],
             scuttle_url=raw.get("scuttle_url"),
         )

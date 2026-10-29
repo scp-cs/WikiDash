@@ -10,7 +10,9 @@ from .paths import split_file_path
 from .progress import ErrorKind, NullReporter, Reporter
 from .workspace import Workspace
 
-log = logging.getLogger(__name__)
+from .logging import create_logger
+
+log = create_logger(__name__)
 
 _LOCAL_FILE_URL = re.compile(r"/local--files/(.+)", re.IGNORECASE)
 

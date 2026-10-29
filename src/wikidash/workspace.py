@@ -20,7 +20,9 @@ from .models import PageMeta
 from .paths import normalize_page_name, reencode_component
 from .store import PersistentDict, PersistentSet, read_json, write_json
 
-log = logging.getLogger(__name__)
+from .logging import create_logger
+
+log = create_logger(__name__)
 
 
 class Workspace:

@@ -9,7 +9,9 @@ import httpx
 
 from .progress import ErrorKind, Status, StatusSink
 
-log = logging.getLogger(__name__)
+from .logging import create_logger
+
+log = create_logger(__name__)
 
 STATUS_PATH = "/backup/status"
 REQUEST_TIMEOUT = 10.0

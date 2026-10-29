@@ -9,8 +9,9 @@ from typing import Any
 
 from .errors import WikidotError
 from .http import HttpClient
+from .logging import create_logger
 
-log = logging.getLogger(__name__)
+log = create_logger(__name__)
 
 TOKEN_COOKIE = "wikidot_token7"
 WRONG_TOKEN = "wrong_token7"

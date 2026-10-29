@@ -11,7 +11,9 @@ from .sitemap import SiteMap
 from .sync_files import FileSyncer
 from .workspace import Workspace
 
-log = logging.getLogger(__name__)
+from .logging import create_logger
+
+log = create_logger(__name__)
 
 # Old archives use this page id for pages whose id could not be determined.
 UNKNOWN_PAGE_ID = -1
