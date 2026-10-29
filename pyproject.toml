@@ -1,0 +1,36 @@
+[project]
+name = "wikidash"
+version = "0.1.0"
+description = "Incremental Wikidot wiki archiver (Python rewrite of WikiComma)"
+requires-python = ">=3.12"
+dependencies = [
+    "httpx[socks]>=0.27",
+    "beautifulsoup4>=4.12",
+    "lxml>=5.0",
+    "py7zr>=0.21",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "mypy>=1.10", "ruff>=0.5"]
+
+[project.scripts]
+wikidash = "wikidash.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.mypy]
+strict = true
+files = ["src"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]

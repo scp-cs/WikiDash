@@ -1,0 +1,104 @@
+{
+    "name": "026-exploration-logs",
+    "version": 18,
+    "revisions": [
+        {
+            "revision": 9,
+            "global_revision": 1217650294,
+            "author": 6223761,
+            "stamp": 1593750264,
+            "flags": "S",
+            "commentary": ""
+        },
+        {
+            "revision": 8,
+            "global_revision": 1073120236,
+            "author": 6141266,
+            "stamp": 1586361228,
+            "flags": "A",
+            "commentary": "Removed tags: korekce."
+        },
+        {
+            "revision": 7,
+            "global_revision": 1073120234,
+            "author": 6141266,
+            "stamp": 1586361217,
+            "flags": "S",
+            "commentary": "shoda přísudku s podmětem, čárky"
+        },
+        {
+            "revision": 6,
+            "global_revision": 1073069800,
+            "author": 6223761,
+            "stamp": 1586220924,
+            "flags": "S",
+            "commentary": ""
+        },
+        {
+            "revision": 5,
+            "global_revision": 1073069427,
+            "author": 6223761,
+            "stamp": 1586219871,
+            "flags": "S",
+            "commentary": ""
+        },
+        {
+            "revision": 4,
+            "global_revision": 1057941860,
+            "author": 3462585,
+            "stamp": 1585430882,
+            "flags": "A",
+            "commentary": "Added tags: doplněk, korekce. Removed tags: dodatek."
+        },
+        {
+            "revision": 3,
+            "global_revision": 1057587518,
+            "author": 5201522,
+            "stamp": 1585424093,
+            "flags": "A",
+            "commentary": "Added tags: dodatek, průzkum."
+        },
+        {
+            "revision": 2,
+            "global_revision": 1056956130,
+            "author": 6223761,
+            "stamp": 1585415070,
+            "flags": "M",
+            "commentary": "Parent page set to: \"scp-026\"."
+        },
+        {
+            "revision": 1,
+            "global_revision": 1056805987,
+            "author": 6141266,
+            "stamp": 1585413348,
+            "flags": "S",
+            "commentary": ""
+        },
+        {
+            "revision": 0,
+            "global_revision": 1056761098,
+            "author": 6223761,
+            "stamp": 1585412913,
+            "flags": "N",
+            "commentary": ""
+        }
+    ],
+    "files": [],
+    "page_id": 1008056692,
+    "parent": "scp-026",
+    "rating": 1,
+    "forum_thread": 13188954,
+    "tags": [
+        "doplněk",
+        "průzkum"
+    ],
+    "title": "SCP-026 Záznam Průzkumů",
+    "sitemap_update": 1593750264000,
+    "votings": [
+        [
+            6963709,
+            true
+        ]
+    ],
+    "is_locked": false
+}

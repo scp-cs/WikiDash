@@ -1,0 +1,11 @@
+{
+    "base_directory": "storage",
+    "wikis": [
+        {"name": "scp-cs", "url": "https://scp-cs.wikidot.com"}
+    ],
+    "ratelimit": {"bucket_size": 60, "refill_seconds": 45},
+    "delay_ms": 250,
+    "user_list_cache_freshness": 86400,
+    "blacklist": [],
+    "scuttle_url": null
+}
