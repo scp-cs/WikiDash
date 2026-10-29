@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Any
 
 from .errors import UserNotFoundError
-from .http import agent_rotator, HttpClient
+from .http import HttpClient, agent_rotator
 from .logging import create_logger
 from .parsers.user_profile import parse_user_profile
 from .store import PersistentSet, read_json, write_json

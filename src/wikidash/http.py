@@ -2,10 +2,10 @@
 
 from pathlib import Path
 from typing import Any
-from random_user_agent.user_agent import UserAgent
-from random_user_agent.params import OperatingSystem, Popularity, SoftwareName
 
 import httpx
+from random_user_agent.params import OperatingSystem, Popularity, SoftwareName
+from random_user_agent.user_agent import UserAgent
 
 from .config import ProxyConfig
 from .errors import HttpError
