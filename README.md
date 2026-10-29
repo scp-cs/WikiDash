@@ -1,12 +1,20 @@
-# wikidash
+# WikiDash
 
 Incremental archiver for Wikidot wikis. A readable Python rewrite of the SCP-CS fork of
-[WikiComma](../wikicomma); it reads and writes the **same archive format**, so existing
-backups keep working.
+[WikiComma](../wikicomma). 
 
-It archives, per wiki: page metadata, votes, tags, files, every revision's source, the
-whole forum (categories, threads, posts, post revisions) and the profiles of all users it
-meets. Runs are incremental: unchanged pages and threads are skipped.
+Initial rewrite made by Claude so that we could actually work on readable, modular source code.
+
+Output is WikiComma-compatible, JSON metadata files use the same format, though this might change in the future.
+
+Archives page metadata and source, files, wiki forum threads and user metadata incrementally.
+
+## Features and planned features
+- [X] Archive everything that WikiComma does
+- [X] Report progress to SCUTTLE
+- [X] Blacklist for unimportant pages with many revisions 
+- [ ] FastAPI server with a control API that's up between backup runs
+- [ ] Possible more efficient format for metadata (SQLite?)
 
 ## Install and run
 
@@ -15,8 +23,9 @@ python -m venv .venv && .venv\Scripts\pip install -e ".[dev]"
 .venv\Scripts\python -m wikidash [config.json]
 ```
 
+(or just `uv sync`)
+
 Config path: argument, else `$WIKICOMMA_CONFIG`, else `./config.json`. Needs Python 3.12+.
-No external `7z` binary is needed (`py7zr`).
 
 ## Config
 
