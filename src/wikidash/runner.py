@@ -5,6 +5,8 @@ import time
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 
+from peewee import Database
+
 from .ajax import WikidotAjax
 from .api import WikidotApi
 from .config import Config, WikiConfig
@@ -38,12 +40,14 @@ class WikiRunner:
         client: HttpClient,
         users: UserList,
         status: StatusSink,
+        database: Database | None
     ) -> None:
         self._wiki = wiki
         self._config = config
         self._status = status
         self._client = client
-        self._workspace = Workspace(config.base_directory / wiki.name)
+        self._database = database
+        self._workspace = Workspace(config.base_directory / wiki.name, self._database)
         self._forum_store = ForumStore(config.base_directory / wiki.name)
         ajax = WikidotAjax(
             client, wiki.url, on_token_invalidated=lambda: status.error(ErrorKind.TOKEN_INVALIDATED)

@@ -9,12 +9,17 @@ from peewee import (
     TextField,
     TimestampField,
 )
+from playhouse.shortcuts import ThreadSafeDatabaseMetadata
 
 
-class UserModel(Model):
+class ModelBase(Model):
+    class Meta:
+        model_metadata_class = ThreadSafeDatabaseMetadata
+
+class UserModel(ModelBase):
     id = AutoField()
-    wikidot_id = IntegerField()
-    username = CharField(512)
+    wikidot_id = IntegerField(unique=True)
+    username = CharField(512, unique=True)
     user_since = DateTimeField()
     activity = IntegerField()
     real_name = TextField(null=True, default=None)
@@ -25,17 +30,17 @@ class UserModel(Model):
     bio = TextField(null=True, default=None)
     account_type = TextField(null=True, default=None)
 
-class ForumThreadModel(Model):
+class ForumThreadModel(ModelBase):
     pass
 
-class PageTagModel(Model):
+class PageTagModel(ModelBase):
     id = AutoField()
     text = TextField()
 
-class PageModel(Model):
-    id = AutoField()
-    name = TextField()
-    wikidot_id = IntegerField()
+class PageModel(ModelBase):
+    id = AutoField(unique=True)
+    name = TextField(unique=True)
+    wikidot_id = IntegerField(unique=True)
     title = TextField(null=True, default=None)
     sitemap_update = DateTimeField(null=True, default=None)
     version = IntegerField(default=0)
@@ -44,19 +49,19 @@ class PageModel(Model):
     forum_thread = ForeignKeyField(ForumThreadModel, null=True, default=None, backref='page')
     locked = BooleanField(null=True, default=None)
 
-class PageHasTag(Model):
+class PageHasTag(ModelBase):
     page = ForeignKeyField(PageModel, backref='tags')
     tag = ForeignKeyField(PageTagModel, backref='pages')
 
-class PageHasUserVote(Model):
+class PageHasUserVote(ModelBase):
     page = ForeignKeyField(PageModel, backref='votes')
     user = ForeignKeyField(UserModel, backref='votes')
     vote = BooleanField() # True is +1, False is -1
 
-class PageRevisionModel(Model):
-    id = AutoField()
+class PageRevisionModel(ModelBase):
+    id = AutoField(unique=True)
     revision_id = IntegerField()
-    global_id = IntegerField()
+    global_id = IntegerField(unique=True)
     author = ForeignKeyField(UserModel, backref='revisions', null=True, default=None)
     timestamp = TimestampField()
     flags = TextField(default="")

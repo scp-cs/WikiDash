@@ -4,7 +4,10 @@ import argparse
 import logging
 import sys
 
+from peewee import SqliteDatabase
+
 from .config import Config, WikiConfig, load_config
+from .database import create_tables, bind_tables
 from .logging import create_logger
 from .progress import StatusSink
 from .runner import WikiRunner, make_client, run_all
@@ -41,11 +44,16 @@ def archive(config: Config) -> int:
         cache_seconds=config.user_list_cache_freshness,
     )
 
+    database = SqliteDatabase(str(config.base_directory / 'wikidash.db'), pragmas={"journal_mode": "wal", "busy_timeout": 5000}, thread_safe=True)
+    database.connect()
+    bind_tables(database)
+    create_tables(database)
+
     def make_runner(wiki: WikiConfig) -> WikiRunner:
         status = (
             ScuttleConnector(wiki.name, config.scuttle_url) if config.scuttle_url else StatusSink()
         )
-        return WikiRunner(wiki, config, make_client(config), users, status)
+        return WikiRunner(wiki, config, make_client(config), users, status, database)
 
     failed = run_all(config, make_runner)
     users.fetch_pending()

@@ -1042,6 +1042,15 @@ wheels = [
 ]
 
 [[package]]
+name = "types-peewee"
+version = "4.5.3.20261029"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/b4/1a/b30144b8c9493e6ef22dfa3b0dc4edb9edfe77ed295d60d5538bcce15015/types_peewee-4.5.3.20261029.tar.gz", hash = "sha256:3ab12278ae698acbd234a62446c67f857153f5885b9417608a874b01b95b29d6", size = 25460, upload-time = "2026-10-29T07:44:19.353Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c2/0a/40804d91b5d71a4a200d0f088e41028d82a5fddf0164cd02bc455a758f3b/types_peewee-4.5.3.20261029-py3-none-any.whl", hash = "sha256:8ac966af53ee9fb9d71ccc26270c6c53bc758b0684bd2fca30ab40b6f3b20d7e", size = 22428, upload-time = "2026-10-29T07:44:18.344Z" },
+]
+
+[[package]]
 name = "typing-extensions"
 version = "4.16.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1061,6 +1070,7 @@ dependencies = [
     { name = "peewee" },
     { name = "py7zr" },
     { name = "random-user-agent" },
+    { name = "types-peewee" },
 ]
 
 [package.optional-dependencies]
@@ -1081,5 +1091,6 @@ requires-dist = [
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8" },
     { name = "random-user-agent", specifier = ">=1.0.1" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.5" },
+    { name = "types-peewee", specifier = ">=4.5.3.20261029" },
 ]
 provides-extras = ["dev"]

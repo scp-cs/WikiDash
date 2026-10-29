@@ -14,6 +14,8 @@
 import shutil
 from pathlib import Path
 
+from peewee import Database
+
 from .archive7z import Archive7z
 from .logging import create_logger
 from .models import PageMeta
@@ -24,7 +26,7 @@ log = create_logger(__name__)
 
 
 class Workspace:
-    def __init__(self, root: Path) -> None:
+    def __init__(self, root: Path, database: Database | None = None) -> None:
         self.root = root
         self.meta = root / "meta"
         self.page_id_map = PersistentDict(self.meta / "page_id_map.json")
@@ -33,6 +35,7 @@ class Workspace:
         self.pending_pages = PersistentSet(self.meta / "pending_pages.json")
         # global revision id -> page id
         self.pending_revisions = PersistentDict(self.meta / "pending_revisions.json")
+        self._database = database
 
     def save(self) -> None:
         """Flush every persistent collection that changed."""
