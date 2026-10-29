@@ -2,6 +2,8 @@
 
 from pathlib import Path
 from typing import Any
+from random_user_agent.user_agent import UserAgent
+from random_user_agent.params import OperatingSystem, Popularity, SoftwareName
 
 import httpx
 
@@ -11,14 +13,28 @@ from .ratelimit import RateLimiter
 from .retry import retry
 from .store import read_json, write_json
 
-# Wikidot serves some pages (and file downloads) only to browser-like agents.
-BROWSER_USER_AGENT = (
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0"
-)
 DEFAULT_CONNECTIONS = 8
 DEFAULT_TIMEOUT = 30.0
 _OK_STATUSES = (200, 206)
 
+# Wikidot serves some pages (and file downloads) only to browser-like agents.
+AGENT_SOFTWARE_NAMES = [SoftwareName.CHROME.value, 
+                        SoftwareName.CHROMIUM.value, 
+                        SoftwareName.EDGE.value, 
+                        SoftwareName.BRAVE.value, 
+                        SoftwareName.OPERA.value, 
+                        SoftwareName.FIREFOX.value, 
+                        SoftwareName.SAFARI.value]
+
+AGENT_OS = [OperatingSystem.ANDROID.value, 
+            OperatingSystem.DARWIN.value, 
+            OperatingSystem.WINDOWS.value, 
+            OperatingSystem.LINUX.value]
+
+AGENT_POPULARITY = [Popularity.POPULAR.value, 
+                    Popularity.COMMON.value]
+
+agent_rotator = UserAgent(software_names=AGENT_SOFTWARE_NAMES, operating_system=AGENT_SOFTWARE_NAMES, popularity=AGENT_POPULARITY, limit=50)
 
 class HttpClient:
     """Sync HTTP client. Thread-safe: httpx.Client is, and the limiter locks."""
@@ -36,7 +52,7 @@ class HttpClient:
         self._limiter = limiter
         limits = httpx.Limits(max_connections=connections)
         self._client = httpx.Client(
-            headers={"User-Agent": BROWSER_USER_AGENT, "Accept": "*/*"},
+            headers={"User-Agent": agent_rotator.get_random_user_agent(), "Accept": "*/*"},
             limits=limits,
             timeout=timeout,
             transport=transport,
