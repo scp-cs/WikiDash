@@ -1,15 +1,13 @@
 """Progress reports to SCUTTLE (https://github.com/scp-cs/translatordb_web)."""
 
 import json
-import logging
 from enum import IntEnum
 from typing import Any
 
 import httpx
 
-from .progress import ErrorKind, Status, StatusSink
-
 from .logging import create_logger
+from .progress import ErrorKind, Status, StatusSink
 
 log = create_logger(__name__)
 

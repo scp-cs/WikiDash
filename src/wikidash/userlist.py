@@ -5,7 +5,6 @@ later calls `fetch_pending` to download the profiles that are missing or stale.
 Nothing here runs in the background.
 """
 
-import logging
 import threading
 import time
 from collections.abc import Callable
@@ -15,11 +14,10 @@ from typing import Any
 
 from .errors import UserNotFoundError
 from .http import BROWSER_USER_AGENT, HttpClient
+from .logging import create_logger
 from .parsers.user_profile import parse_user_profile
 from .store import PersistentSet, read_json, write_json
 from .user_models import User
-
-from .logging import create_logger
 
 log = create_logger(__name__)
 

@@ -1,16 +1,14 @@
 """Page attachments: metadata, download and retry of failed downloads."""
 
-import logging
 import re
 from typing import Protocol
 
 from .api import TRANSIENT_ERRORS
+from .logging import create_logger
 from .models import FILE_METADATA_VERSION, FileMeta
 from .paths import split_file_path
 from .progress import ErrorKind, NullReporter, Reporter
 from .workspace import Workspace
-
-from .logging import create_logger
 
 log = create_logger(__name__)
 

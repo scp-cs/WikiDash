@@ -1,6 +1,5 @@
 """Incremental sync of the forum: categories -> threads -> posts -> post revisions."""
 
-import logging
 from concurrent.futures import ThreadPoolExecutor
 from typing import Protocol
 
@@ -20,9 +19,8 @@ from .forum_models import (
     ThreadMeta,
 )
 from .forum_store import LATEST, ForumStore, KnownHtml
-from .progress import ErrorKind, NullReporter, Reporter
-
 from .logging import create_logger
+from .progress import ErrorKind, NullReporter, Reporter
 
 log = create_logger(__name__)
 

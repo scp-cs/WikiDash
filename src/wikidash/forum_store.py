@@ -6,15 +6,13 @@
     forum/<category>/<thread>.7z             the same files, members '<post>/<revision>.html'
 """
 
-import logging
 import shutil
 from pathlib import Path
 
 from .archive7z import Archive7z
 from .forum_models import CategoryMeta, ThreadMeta
-from .store import read_json, write_json
-
 from .logging import create_logger
+from .store import read_json, write_json
 
 log = create_logger(__name__)
 

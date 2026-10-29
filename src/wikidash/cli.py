@@ -5,11 +5,11 @@ import logging
 import sys
 
 from .config import Config, WikiConfig, load_config
+from .logging import create_logger
 from .progress import StatusSink
 from .runner import WikiRunner, make_client, run_all
 from .scuttle import ScuttleConnector
 from .userlist import UserList
-from .logging import create_logger
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -1,14 +1,12 @@
 """Retrying work that failed in earlier runs: page revision sources."""
 
-import logging
 from concurrent.futures import ThreadPoolExecutor
 from typing import Protocol
 
 from .api import TRANSIENT_ERRORS
+from .logging import create_logger
 from .progress import ErrorKind, NullReporter, Reporter
 from .workspace import Workspace
-
-from .logging import create_logger
 
 log = create_logger(__name__)
 

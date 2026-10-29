@@ -1,6 +1,5 @@
 """One full backup run of a single wiki."""
 
-import logging
 import threading
 import time
 from collections.abc import Callable
@@ -12,6 +11,7 @@ from .config import Config, WikiConfig
 from .errors import WikidashError
 from .forum_store import ForumStore
 from .http import HttpClient
+from .logging import create_logger
 from .progress import Counters, ErrorKind, Status, StatusSink
 from .ratelimit import RateLimiter
 from .sitemap import SiteMap, fetch_sitemap, read_sitemap, removed_pages, write_sitemap
@@ -21,8 +21,6 @@ from .sync_pages import PageSyncer
 from .sync_pending import retry_pending_revisions
 from .userlist import UserList
 from .workspace import Workspace
-
-from .logging import create_logger
 
 log = create_logger(__name__)
 

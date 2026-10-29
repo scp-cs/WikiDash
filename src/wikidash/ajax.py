@@ -1,7 +1,6 @@
 """Wikidot's ajax-module-connector: token handling and module calls."""
 
 import json
-import logging
 import threading
 import time
 from collections.abc import Callable

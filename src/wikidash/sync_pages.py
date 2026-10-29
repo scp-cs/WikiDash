@@ -1,17 +1,15 @@
 """Incremental sync of one page: metadata, files and revision sources."""
 
-import logging
 from collections.abc import Callable
 from typing import Any, Protocol
 
 from .api import TRANSIENT_ERRORS
+from .logging import create_logger
 from .models import PAGE_METADATA_VERSION, PageInfo, PageMeta, PageRevision, UserId
 from .progress import Counters, ErrorKind, NullReporter, Reporter
 from .sitemap import SiteMap
 from .sync_files import FileSyncer
 from .workspace import Workspace
-
-from .logging import create_logger
 
 log = create_logger(__name__)
 
