@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Any
 
 from .errors import UserNotFoundError
-from .http import BROWSER_USER_AGENT, HttpClient
+from .http import agent_rotator, HttpClient
 from .logging import create_logger
 from .parsers.user_profile import parse_user_profile
 from .store import PersistentSet, read_json, write_json
@@ -45,6 +45,7 @@ class UserList:
         self._lock = threading.RLock()
         self._buckets: dict[int, dict[str, Any]] = {}
         self._seen: set[tuple[int | None, str]] = set()
+        self._ua: str = agent_rotator.get_random_user_agent()
         # [user_id or None, username] pairs still to download.
         self._pending = PersistentSet(folder / "pending.json")
 
@@ -92,7 +93,7 @@ class UserList:
     def fetch(self, username: str) -> User:
         """Download one profile now and store it."""
         url = PROFILE_URL.format(username=username)
-        html = self._client.get(url, headers={"User-Agent": BROWSER_USER_AGENT}).decode("utf-8")
+        html = self._client.get(url, headers={"User-Agent": self._ua}).decode("utf-8")
         user = parse_user_profile(html, username, fetched_at_ms=int(self._clock() * 1000))
         self.put(user)
         return user
