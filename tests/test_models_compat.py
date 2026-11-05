@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pytest
 
-from wikidash.forum_models import CategoryMeta, ThreadMeta
-from wikidash.models import PageMeta
+from wikidash.models.forum_models import CategoryMeta, ThreadMeta
+from wikidash.models.page_models import PageMeta
 
 FIXTURES = Path(__file__).parent / "fixtures"
 

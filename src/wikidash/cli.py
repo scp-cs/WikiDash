@@ -6,13 +6,13 @@ import sys
 
 from peewee import SqliteDatabase
 
+from .common.logging import create_logger
 from .config import Config, WikiConfig, load_config
-from .database import create_tables, bind_tables
-from .logging import create_logger
+from .database import bind_tables, create_tables
 from .progress import StatusSink
 from .runner import WikiRunner, make_client, run_all
 from .scuttle import ScuttleConnector
-from .userlist import UserList
+from .wikidot.userlist import UserList
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -21,6 +21,7 @@ def main(argv: list[str] | None = None) -> int:
         "config", nargs="?", help="config file (default: $WIKICOMMA_CONFIG or config.json)"
     )
     parser.add_argument("-v", "--verbose", action="store_true", help="debug logging")
+    parser.add_argument("-m", "--migrate-database", action="store_true", help="Migrate old metadata format to SQLite")
     args = parser.parse_args(argv)
 
     create_logger(None)
@@ -36,6 +37,9 @@ def main(argv: list[str] | None = None) -> int:
         logging.getLogger("httpx").setLevel(
             logging.INFO if config.debug_config.httpx_logging else logging.WARNING
         )
+
+    if args.migrate_database:
+        raise NotImplementedError("Database migration is not implemented yet")
 
     return archive(config)
 

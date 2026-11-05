@@ -1,4 +1,4 @@
-from wikidash.ratelimit import RateLimiter
+from wikidash.common.ratelimit import RateLimiter
 
 
 class FakeTime:

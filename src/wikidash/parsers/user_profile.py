@@ -5,8 +5,8 @@ from datetime import UTC, datetime
 
 from bs4 import Tag
 
-from wikidash.errors import ParseError, UserNotFoundError
-from wikidash.user_models import User, UserActivity
+from wikidash.common.errors import ParseError, UserNotFoundError
+from wikidash.models.user_models import User, UserActivity
 
 from .html import attr, parse_page
 

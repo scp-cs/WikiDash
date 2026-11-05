@@ -11,19 +11,19 @@ from typing import Any
 
 import httpx
 
+from ..common.errors import WikidashError
+from ..common.http import HttpClient
+from ..common.retry import retry
+from ..models.forum_models import CategoryInfo, PostInfo, PostRevision, RevisionBody, ThreadInfo
+from ..models.page_models import FileMeta, PageInfo, PageRevision, UserId
+from ..parsers import files as file_parsers
+from ..parsers import forum as forum_parsers
+from ..parsers import page as page_parsers
+from ..parsers import revisions as revision_parsers
+from ..parsers import voters as voter_parsers
+from ..parsers.html import parse_fragment
+from ..parsers.users import UserSink, ignore_users
 from .ajax import WikidotAjax
-from .errors import WikidashError
-from .forum_models import CategoryInfo, PostInfo, PostRevision, RevisionBody, ThreadInfo
-from .http import HttpClient
-from .models import FileMeta, PageInfo, PageRevision, UserId
-from .parsers import files as file_parsers
-from .parsers import forum as forum_parsers
-from .parsers import page as page_parsers
-from .parsers import revisions as revision_parsers
-from .parsers import voters as voter_parsers
-from .parsers.html import parse_fragment
-from .parsers.users import UserSink, ignore_users
-from .retry import retry
 
 REVISIONS_PER_PAGE = 100
 # Anything in this tuple is worth another attempt.

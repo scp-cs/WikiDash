@@ -3,9 +3,10 @@
 from concurrent.futures import ThreadPoolExecutor
 from typing import Protocol
 
-from .api import TRANSIENT_ERRORS
-from .errors import HttpError
-from .forum_models import (
+from ..common.errors import HttpError
+from ..common.logging import create_logger
+from ..forum_store import LATEST, ForumStore, KnownHtml
+from ..models.forum_models import (
     FORUM_CATEGORY_METADATA_VERSION,
     FORUM_THREAD_METADATA_VERSION,
     CategoryInfo,
@@ -18,9 +19,8 @@ from .forum_models import (
     ThreadInfo,
     ThreadMeta,
 )
-from .forum_store import LATEST, ForumStore, KnownHtml
-from .logging import create_logger
-from .progress import ErrorKind, NullReporter, Reporter
+from ..progress import ErrorKind, NullReporter, Reporter
+from ..wikidot.api import TRANSIENT_ERRORS
 
 log = create_logger(__name__)
 

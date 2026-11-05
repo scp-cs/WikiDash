@@ -7,21 +7,21 @@ from concurrent.futures import ThreadPoolExecutor
 
 from peewee import Database
 
-from .ajax import WikidotAjax
-from .api import WikidotApi
+from .common.errors import WikidashError
+from .common.http import HttpClient
+from .common.logging import create_logger
+from .common.ratelimit import RateLimiter
 from .config import Config, WikiConfig
-from .errors import WikidashError
 from .forum_store import ForumStore
-from .http import HttpClient
-from .logging import create_logger
 from .progress import Counters, ErrorKind, Status, StatusSink
-from .ratelimit import RateLimiter
-from .sitemap import SiteMap, fetch_sitemap, read_sitemap, removed_pages, write_sitemap
-from .sync_files import FileSyncer
-from .sync_forum import ForumSyncer
-from .sync_pages import PageSyncer
-from .sync_pending import retry_pending_revisions
-from .userlist import UserList
+from .sync.sync_files import FileSyncer
+from .sync.sync_forum import ForumSyncer
+from .sync.sync_pages import PageSyncer
+from .sync.sync_pending import retry_pending_revisions
+from .wikidot.ajax import WikidotAjax
+from .wikidot.api import WikidotApi
+from .wikidot.sitemap import SiteMap, fetch_sitemap, read_sitemap, removed_pages, write_sitemap
+from .wikidot.userlist import UserList
 from .workspace import Workspace
 
 log = create_logger(__name__)

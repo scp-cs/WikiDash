@@ -2,8 +2,8 @@
 
 from bs4 import Tag
 
-from wikidash.errors import ParseError
-from wikidash.models import UserId
+from wikidash.common.errors import ParseError
+from wikidash.models.page_models import UserId
 
 from .html import child_tags, parse_fragment
 from .users import UserSink, ignore_users, user_id_of

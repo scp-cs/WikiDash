@@ -5,8 +5,8 @@ import re
 from bs4 import Tag
 from bs4.element import NavigableString
 
-from wikidash.errors import ParseError
-from wikidash.forum_models import (
+from wikidash.common.errors import ParseError
+from wikidash.models.forum_models import (
     CategoryInfo,
     PostInfo,
     PostRevision,

@@ -1,6 +1,6 @@
 import pytest
 
-from wikidash.errors import ParseError
+from wikidash.common.errors import ParseError
 from wikidash.parsers.files import parse_file_info, parse_file_list
 from wikidash.parsers.forum import (
     parse_categories,

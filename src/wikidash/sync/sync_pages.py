@@ -3,13 +3,13 @@
 from collections.abc import Callable
 from typing import Any, Protocol
 
-from .api import TRANSIENT_ERRORS
-from .logging import create_logger
-from .models import PAGE_METADATA_VERSION, PageInfo, PageMeta, PageRevision, UserId
-from .progress import Counters, ErrorKind, NullReporter, Reporter
-from .sitemap import SiteMap
+from ..common.logging import create_logger
+from ..models.page_models import PAGE_METADATA_VERSION, PageInfo, PageMeta, PageRevision, UserId
+from ..progress import Counters, ErrorKind, NullReporter, Reporter
+from ..wikidot.api import TRANSIENT_ERRORS
+from ..wikidot.sitemap import SiteMap
+from ..workspace import Workspace
 from .sync_files import FileSyncer
-from .workspace import Workspace
 
 log = create_logger(__name__)
 

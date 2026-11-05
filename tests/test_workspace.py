@@ -2,7 +2,7 @@ import json
 import shutil
 from pathlib import Path
 
-from wikidash.models import PageMeta
+from wikidash.models.page_models import PageMeta
 from wikidash.workspace import Workspace
 
 FIXTURES = Path(__file__).parent / "fixtures"

@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from wikidash.store import PersistentDict, PersistentSet, write_json
+from wikidash.common.store import PersistentDict, PersistentSet, write_json
 
 
 def test_write_json_is_indented_and_atomic(tmp_path: Path) -> None:

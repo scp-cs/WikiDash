@@ -3,7 +3,7 @@
 import re
 from urllib.parse import unquote
 
-from wikidash.models import PageInfo
+from wikidash.models.page_models import PageInfo
 
 from .html import attr, parse_page
 

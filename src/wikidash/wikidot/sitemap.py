@@ -8,8 +8,8 @@ from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
 
-from .http import HttpClient
-from .store import read_json, write_json
+from ..common.http import HttpClient
+from ..common.store import read_json, write_json
 
 # page name -> last modification in epoch milliseconds (None: wikidot gave no date,
 # so the page is always re-checked).

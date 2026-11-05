@@ -3,10 +3,10 @@
 from concurrent.futures import ThreadPoolExecutor
 from typing import Protocol
 
-from .api import TRANSIENT_ERRORS
-from .logging import create_logger
-from .progress import ErrorKind, NullReporter, Reporter
-from .workspace import Workspace
+from ..common.logging import create_logger
+from ..progress import ErrorKind, NullReporter, Reporter
+from ..wikidot.api import TRANSIENT_ERRORS
+from ..workspace import Workspace
 
 log = create_logger(__name__)
 

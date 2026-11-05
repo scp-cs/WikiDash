@@ -138,6 +138,7 @@ class ForumPostModel(ModelBase):
     last_edit = TimestampField(null=True, default=None)
     last_edit_author = ForeignKeyField(UserModel)
     parent = ForeignKeyField("self", null=True, default=None, backref="children")
+    thread = ForeignKeyField(ForumThreadModel, backref='posts')
 
     class Meta:
         table_name = "forum_post"
@@ -165,3 +166,6 @@ class FileModel(ModelBase):
     description = TextField()
     author = ForeignKeyField(UserModel, backref="uploaded_files")
     upload_time = TimestampField(null=True, default=None)
+
+    class Meta:
+        table_name = "file"

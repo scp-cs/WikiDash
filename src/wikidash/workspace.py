@@ -17,10 +17,10 @@ from pathlib import Path
 from peewee import Database
 
 from .archive7z import Archive7z
-from .logging import create_logger
-from .models import PageMeta
-from .paths import normalize_page_name, reencode_component
-from .store import PersistentDict, PersistentSet, read_json, write_json
+from .common.logging import create_logger
+from .common.paths import normalize_page_name, reencode_component
+from .common.store import PersistentDict, PersistentSet, read_json, write_json
+from .models.page_models import PageMeta
 
 log = create_logger(__name__)
 

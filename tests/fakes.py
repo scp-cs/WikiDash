@@ -1,7 +1,7 @@
 """In-memory stand-in for WikidotApi, used by the sync tests."""
 
-from wikidash.errors import WikidashError
-from wikidash.models import FileMeta, PageInfo, PageRevision, UserId
+from wikidash.common.errors import WikidashError
+from wikidash.models.page_models import FileMeta, PageInfo, PageRevision, UserId
 
 
 class FakePage:

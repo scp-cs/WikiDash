@@ -2,7 +2,7 @@
 
 import re
 
-from wikidash.models import PageRevision
+from wikidash.models.page_models import PageRevision
 
 from .html import first_int, parse_fragment, timestamp
 from .users import UserSink, ignore_users, user_id_of

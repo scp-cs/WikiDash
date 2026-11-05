@@ -6,9 +6,9 @@ import httpx
 from fakes import FakePage, FakeWikidot
 from wikidash.progress import Counters, ErrorKind, Status
 from wikidash.scuttle import ScuttleConnector
-from wikidash.sync_files import FileSyncer
-from wikidash.sync_pages import PageSyncer
-from wikidash.sync_pending import retry_pending_revisions
+from wikidash.sync.sync_files import FileSyncer
+from wikidash.sync.sync_pages import PageSyncer
+from wikidash.sync.sync_pending import retry_pending_revisions
 from wikidash.workspace import Workspace
 
 

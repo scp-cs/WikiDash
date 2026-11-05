@@ -6,9 +6,9 @@ import time
 from collections.abc import Callable
 from typing import Any
 
-from .errors import WikidotError
-from .http import HttpClient
-from .logging import create_logger
+from ..common.errors import WikidotError
+from ..common.http import HttpClient
+from ..common.logging import create_logger
 
 log = create_logger(__name__)
 

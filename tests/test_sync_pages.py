@@ -2,8 +2,8 @@ from pathlib import Path
 
 from fakes import FakePage, FakeWikidot
 from wikidash.progress import Counters
-from wikidash.sync_files import FileSyncer
-from wikidash.sync_pages import PageSyncer
+from wikidash.sync.sync_files import FileSyncer
+from wikidash.sync.sync_pages import PageSyncer
 from wikidash.workspace import Workspace
 
 

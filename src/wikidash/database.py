@@ -1,11 +1,12 @@
 import logging
+from collections import defaultdict
 from datetime import datetime
 
 from peewee import Database
 
-from .forum_models import CategoryMeta, StoredPost, StoredPostRevision, ThreadMeta
-from .models import FileMeta, PageMeta, PageRevision
-from .sqlite_models import (
+from .models.forum_models import CategoryMeta, StoredPost, StoredPostRevision, ThreadMeta
+from .models.page_models import FileMeta, PageMeta, PageRevision
+from .models.sqlite_models import (
     FileModel,
     ForumCategoryModel,
     ForumPostModel,
@@ -18,7 +19,7 @@ from .sqlite_models import (
     PageTagModel,
     UserModel,
 )
-from .user_models import User
+from .models.user_models import User
 
 ALL_MODELS = [
     UserModel,
@@ -44,6 +45,10 @@ def create_tables(database: Database) -> None:
 def bind_tables(database: Database) -> None:
     database.bind(ALL_MODELS)
 
+# TODO: Models are bound to the database in `cli.py` and the RecordSink class really has no control over the SQLite setup
+# This is not really a problem but kind of a shitty abstraction
+
+# TODO: Figure out the logic for updating this incrementally without reinserting everything every time
 
 class DatabaseRecordSink:
     """
@@ -51,21 +56,30 @@ class DatabaseRecordSink:
     and only flushed when a site runner finishes to keep database integrity.
     """
 
+    # Save order:
+    # 1. Users
+    # 2. Files
+    # 3. Forum categories
+    # 4. Forum threads
+    # 5. Forum posts
+    # 6. Forum post revisions
+    # 7. (Page => PageTags => PageVotes => PageRevisions) for each page
+
     def __init__(self) -> None:
         self._pages: set[PageMeta] = set()
-        self._revisions: set[PageRevision] = set()
+        self._revisions: defaultdict[int, set[PageRevision]] = defaultdict(set[PageRevision])
         self._users: set[User] = set()
         self._categories: set[CategoryMeta] = set()
-        self._forum_posts: set[StoredPost] = set()
-        self._forum_threads: set[ThreadMeta] = set()
-        self._forum_revisions: set[StoredPostRevision] = set()
+        self._forum_posts: defaultdict[int, set[StoredPost]] = defaultdict(set[StoredPost])
+        self._forum_threads: defaultdict[int, set[ThreadMeta]] = defaultdict(set[ThreadMeta])
+        self._forum_revisions: defaultdict[int, set[StoredPostRevision]] = defaultdict(set[StoredPostRevision])
         self._files: set[FileMeta] = set()
 
     def queue_page(self, page: PageMeta) -> None:
         self._pages.add(page)
 
-    def queue_revision(self, rev: PageRevision) -> None:
-        self._revisions.add(rev)
+    def queue_revision(self, rev: PageRevision, page: PageMeta) -> None:
+        self._revisions[page.page_id].add(rev)
 
     def queue_user(self, user: User) -> None:
         self._users.add(user)
@@ -73,11 +87,14 @@ class DatabaseRecordSink:
     def queue_forum_category(self, category: CategoryMeta) -> None:
         self._categories.add(category)
 
-    def queue_forum_post(self, post: StoredPost) -> None:
-        self._forum_posts.add(post)
+    def queue_forum_post(self, post: StoredPost, thread: ThreadMeta) -> None:
+        self._forum_posts[thread.id].add(post)
 
-    def queue_forum_revision(self, revision: StoredPostRevision) -> None:
-        self._forum_revisions.add(revision)
+    def queue_forum_thread(self, thread: ThreadMeta, category: CategoryMeta) -> None:
+        self._forum_threads[category.id].add(thread)
+
+    def queue_forum_revision(self, revision: StoredPostRevision, post: StoredPost) -> None:
+        self._forum_revisions[post.id].add(revision)
 
     def queue_file(self, file: FileMeta) -> None:
         self._files.add(file)
@@ -112,12 +129,12 @@ class DatabaseRecordSink:
             page=PageModel.get_or_none(PageModel.wikidot_id == page.page_id),
         ).returning(PageRevisionModel).execute()
 
-        self._revisions.remove(revision)
-
     def _save_page(self, page: PageMeta) -> None:
 
         if page.parent is not None and PageModel.get_or_none(PageModel.name == page.parent) is None:
             return
+
+        # TODO: The forum thread
 
         newpage = (
             PageModel.insert(
@@ -147,3 +164,40 @@ class DatabaseRecordSink:
                 PageHasUserVote.create(page=newpage, vote=vote, user_unknown=True)
 
         self._pages.remove(page)
+
+    def _save_file(self, file: FileMeta) -> None:
+        FileModel.insert(
+            wikidot_id = file.file_id,
+            name = file.name,
+            url = file.url,
+            size_text = file.size,
+            size_bytes = file.size_bytes,
+            mime_type = file.mime,
+            description = file.content,
+            author = UserModel.get_or_none(UserModel.wikidot_id == file.author),
+            upload_time = datetime.fromtimestamp(file.stamp) if file.stamp else None
+        ).returning(FileModel).execute()
+
+    def _save_forum_category(self, category: CategoryMeta) -> None:
+        ForumCategoryModel.insert(
+            wikidot_id = category.id,
+            title = category.title,
+            description = category.description,
+            thread_count = category.threads,
+            post_count = category.posts,
+            # TODO: These are probably redundant, you can do that with a SELECT after, just like some others
+            last_activity = datetime.fromtimestamp(category.last) if category.last else None,
+            last_author = UserModel.get_or_none(UserModel.wikidot_id == category.last_user) if category.last_user else None
+        )
+
+    def _save_forum_post(self, post: StoredPost, thread: ThreadMeta) -> None:
+        ...
+
+    def _save_forum_post_revision(self, revision: ForumPostRevisionModel, post: StoredPost) -> None:
+        ...
+
+    def flush(self) -> None:
+
+        def save_all() -> None:
+            for user in self._users:
+                self._save_user(user)

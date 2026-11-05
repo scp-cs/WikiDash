@@ -1,4 +1,4 @@
-from wikidash.paths import normalize_page_name, reencode_component, split_file_path
+from wikidash.common.paths import normalize_page_name, reencode_component, split_file_path
 
 
 def test_reencode_escapes_forbidden_characters() -> None:

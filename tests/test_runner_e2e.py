@@ -6,11 +6,11 @@ from urllib.parse import parse_qs
 
 import httpx
 
+from wikidash.common.http import HttpClient
 from wikidash.config import Config
-from wikidash.http import HttpClient
 from wikidash.progress import StatusSink
 from wikidash.runner import WikiRunner, run_all
-from wikidash.userlist import UserList
+from wikidash.wikidot.userlist import UserList
 
 WIKI = "https://t.wikidot.com"
 USER = (

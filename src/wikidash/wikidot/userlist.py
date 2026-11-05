@@ -12,12 +12,12 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any
 
-from .errors import UserNotFoundError
-from .http import HttpClient, agent_rotator
-from .logging import create_logger
-from .parsers.user_profile import parse_user_profile
-from .store import PersistentSet, read_json, write_json
-from .user_models import User
+from ..common.errors import UserNotFoundError
+from ..common.http import HttpClient, agent_rotator
+from ..common.logging import create_logger
+from ..common.store import PersistentSet, read_json, write_json
+from ..models.user_models import User
+from ..parsers.user_profile import parse_user_profile
 
 log = create_logger(__name__)
 

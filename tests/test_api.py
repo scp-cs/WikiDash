@@ -5,10 +5,10 @@ from urllib.parse import parse_qs
 import httpx
 import pytest
 
-from wikidash.ajax import WikidotAjax
-from wikidash.api import WikidotApi, paginate
-from wikidash.errors import WikidashError
-from wikidash.http import HttpClient
+from wikidash.common.errors import WikidashError
+from wikidash.common.http import HttpClient
+from wikidash.wikidot.ajax import WikidotAjax
+from wikidash.wikidot.api import WikidotApi, paginate
 
 WIKI = "https://test.wikidot.com"
 

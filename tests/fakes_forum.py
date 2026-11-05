@@ -1,7 +1,13 @@
 """In-memory stand-in for the forum part of WikidotApi."""
 
-from wikidash.errors import HttpError, WikidashError
-from wikidash.forum_models import CategoryInfo, PostInfo, PostRevision, RevisionBody, ThreadInfo
+from wikidash.common.errors import HttpError, WikidashError
+from wikidash.models.forum_models import (
+    CategoryInfo,
+    PostInfo,
+    PostRevision,
+    RevisionBody,
+    ThreadInfo,
+)
 
 
 class FakeForum:

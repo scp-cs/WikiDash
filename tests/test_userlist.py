@@ -3,10 +3,10 @@ from pathlib import Path
 
 import httpx
 
-from wikidash.http import HttpClient
+from wikidash.common.http import HttpClient
+from wikidash.models.user_models import User, UserActivity
 from wikidash.parsers.user_profile import parse_user_profile, parse_wikidot_date
-from wikidash.user_models import User, UserActivity
-from wikidash.userlist import UserList, bucket_of
+from wikidash.wikidot.userlist import UserList, bucket_of
 
 PROFILE = """
 <html><body><div class="col-md-9">

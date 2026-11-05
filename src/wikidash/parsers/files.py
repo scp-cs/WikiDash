@@ -4,8 +4,8 @@ import re
 
 from bs4 import Tag
 
-from wikidash.errors import ParseError
-from wikidash.models import FileMeta
+from wikidash.common.errors import ParseError
+from wikidash.models.page_models import FileMeta
 
 from .html import attr, parse_fragment, timestamp
 from .users import UserSink, ignore_users, user_id_of

@@ -2,9 +2,9 @@ import json
 from pathlib import Path
 
 from fakes_forum import FakeForum
-from wikidash.forum_models import CategoryInfo, PostInfo, PostRevision, ThreadInfo
 from wikidash.forum_store import ForumStore
-from wikidash.sync_forum import ForumSyncer
+from wikidash.models.forum_models import CategoryInfo, PostInfo, PostRevision, ThreadInfo
+from wikidash.sync.sync_forum import ForumSyncer
 
 
 def thread(thread_id: int, last: int, posts: int) -> ThreadInfo:

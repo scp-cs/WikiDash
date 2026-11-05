@@ -4,9 +4,9 @@ from urllib.parse import parse_qs
 import httpx
 import pytest
 
-from wikidash.ajax import WikidotAjax
-from wikidash.errors import WikidotError
-from wikidash.http import HttpClient
+from wikidash.common.errors import WikidotError
+from wikidash.common.http import HttpClient
+from wikidash.wikidot.ajax import WikidotAjax
 
 WIKI = "https://test.wikidot.com"
 

@@ -1,7 +1,7 @@
 import httpx
 
-from wikidash.http import HttpClient
-from wikidash.sitemap import fetch_sitemap, page_name_from_url, parse_lastmod, removed_pages
+from wikidash.common.http import HttpClient
+from wikidash.wikidot.sitemap import fetch_sitemap, page_name_from_url, parse_lastmod, removed_pages
 
 WIKI = "https://test.wikidot.com"
 

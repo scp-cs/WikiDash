@@ -4,10 +4,10 @@ from pathlib import Path
 from typing import Any
 
 import httpx
-from random_user_agent.params import OperatingSystem, Popularity, SoftwareName
-from random_user_agent.user_agent import UserAgent
+from random_user_agent.params import OperatingSystem, Popularity, SoftwareName  # type: ignore[import-untyped]
+from random_user_agent.user_agent import UserAgent  # type: ignore[import-untyped]
 
-from .config import ProxyConfig
+from ..config import ProxyConfig
 from .errors import HttpError
 from .ratelimit import RateLimiter
 from .retry import retry

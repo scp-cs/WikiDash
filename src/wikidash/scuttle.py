@@ -6,7 +6,7 @@ from typing import Any
 
 import httpx
 
-from .logging import create_logger
+from .common.logging import create_logger
 from .progress import ErrorKind, Status, StatusSink
 
 log = create_logger(__name__)

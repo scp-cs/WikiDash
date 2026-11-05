@@ -3,12 +3,12 @@
 import re
 from typing import Protocol
 
-from .api import TRANSIENT_ERRORS
-from .logging import create_logger
-from .models import FILE_METADATA_VERSION, FileMeta
-from .paths import split_file_path
-from .progress import ErrorKind, NullReporter, Reporter
-from .workspace import Workspace
+from ..common.logging import create_logger
+from ..common.paths import split_file_path
+from ..models.page_models import FILE_METADATA_VERSION, FileMeta
+from ..progress import ErrorKind, NullReporter, Reporter
+from ..wikidot.api import TRANSIENT_ERRORS
+from ..workspace import Workspace
 
 log = create_logger(__name__)
 

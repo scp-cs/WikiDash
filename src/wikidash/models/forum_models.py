@@ -7,7 +7,7 @@ left out when unknown.
 from dataclasses import dataclass, field
 from typing import Any
 
-from .models import UserId
+from .page_models import UserId
 
 FORUM_CATEGORY_METADATA_VERSION = 1
 FORUM_THREAD_METADATA_VERSION = 1
