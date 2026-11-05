@@ -188,13 +188,44 @@ class DatabaseRecordSink:
             # TODO: These are probably redundant, you can do that with a SELECT after, just like some others
             last_activity = datetime.fromtimestamp(category.last) if category.last else None,
             last_author = UserModel.get_or_none(UserModel.wikidot_id == category.last_user) if category.last_user else None
-        )
+        ).returning(ForumCategoryModel).execute()
 
-    def _save_forum_post(self, post: StoredPost, thread: ThreadMeta) -> None:
-        ...
+    def _save_forum_thread(self, thread: ThreadMeta, category: CategoryMeta) -> None:
+        thread_model = ForumThreadModel.insert(
+            wikidot_id = thread.id,
+            title = thread.title,
+            description = thread.description,
+            post_count = thread.posts_num,
+            sticky = thread.sticky,
+            started = datetime.fromtimestamp(thread.started), # TODO: Not sure if it's sec or msec here
+            started_by = UserModel.get_or_none(UserModel.wikidot_id == thread.started_user),
+            last_post = datetime.fromtimestamp(thread.last) if thread.last else None,
+            last_post_author = UserModel.get_or_none(UserModel.wikidot_id == thread.last_user) if thread.last_user else None,
+            locked = thread.is_locked,
+            category = ForumCategoryModel.get_or_none(ForumCategoryModel.wikidot_id == category.id)
+        ).returning(ForumThreadModel).execute()
 
-    def _save_forum_post_revision(self, revision: ForumPostRevisionModel, post: StoredPost) -> None:
-        ...
+        for post in thread.posts:
+            # TODO: Defer posts with no saved parent
+            post_model = ForumPostModel.insert(
+                wikidot_id = post.id,
+                title = post.title,
+                author = UserModel.get_or_none(UserModel.wikidot_id == post.poster),
+                timestamp = datetime.fromtimestamp(post.stamp),
+                last_edit_author = UserModel.get_or_none(UserModel.wikidot_id == post.last_edit_by) if post.last_edit_by else None,
+                last_edit = datetime.fromtimestamp(post.last_edit) if post.last_edit else None,
+                parent = None, # TODO: We will fill this in at the end!!,
+                thread = thread_model
+            ).returning(ForumPostModel).execute()
+
+            for revision in post.revisions:
+                ForumPostRevisionModel.insert(
+                    wikidot_id = revision.id,
+                    author = UserModel.get_or_none(UserModel.wikidot_id == revision.author),
+                    timestamp = datetime.fromtimestamp(revision.stamp),
+                    title = revision.title,
+                    post = post_model
+                ).execute()
 
     def flush(self) -> None:
 
