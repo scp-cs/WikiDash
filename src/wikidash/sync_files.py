@@ -35,7 +35,9 @@ class FileSyncer:
         self._source = source
         self._reporter = reporter or NullReporter()
 
-    def sync_page_files(self, page_name: str, page_id: int, existing: list[FileMeta]) -> list[FileMeta]:
+    def sync_page_files(
+        self, page_name: str, page_id: int, existing: list[FileMeta]
+    ) -> list[FileMeta]:
         """Bring a page's files up to date; returns the files it has now."""
         current: list[FileMeta] = []
         for meta in self._current_file_metas(page_name, page_id, existing):

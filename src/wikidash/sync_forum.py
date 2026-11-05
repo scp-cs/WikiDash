@@ -239,4 +239,3 @@ def _category_meta(info: CategoryInfo, full_scan: bool, last_page: int) -> Categ
         full_scan=full_scan,
         last_page=last_page,
     )
-

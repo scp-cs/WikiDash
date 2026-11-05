@@ -18,9 +18,7 @@ SiteMap = dict[str, int | None]
 _SUB_SITEMAP = re.compile(r"_page_\d+\.xml$")
 
 
-def fetch_sitemap(
-    client: HttpClient, wiki_url: str, blacklist: Collection[str] = ()
-) -> SiteMap:
+def fetch_sitemap(client: HttpClient, wiki_url: str, blacklist: Collection[str] = ()) -> SiteMap:
     """Collect all pages from /sitemap.xml and the sub-sitemaps it points to."""
     pages: SiteMap = {}
     pending = [f"{wiki_url}/sitemap.xml"]

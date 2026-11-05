@@ -83,7 +83,9 @@ class PageSyncer:
 
     # --- metadata ------------------------------------------------------
 
-    def _refresh(self, name: str, last_modified: int | None, old: PageMeta | None) -> PageMeta | None:
+    def _refresh(
+        self, name: str, last_modified: int | None, old: PageMeta | None
+    ) -> PageMeta | None:
         info = self._source.page_info(name)
         if info.page_id is None:
             return old
@@ -96,12 +98,24 @@ class PageSyncer:
         meta.title = info.title
         meta.sitemap_update = last_modified
 
-        meta.votings = self._try(ErrorKind.VOTE_FETCH, name, meta.votings, self._source.voters, meta.page_id)
+        meta.votings = self._try(
+            ErrorKind.VOTE_FETCH, name, meta.votings, self._source.voters, meta.page_id
+        )
         meta.is_locked = self._try(
-            ErrorKind.LOCK_STATUS_FETCH, name, meta.is_locked, self._source.is_page_locked, meta.page_id
+            ErrorKind.LOCK_STATUS_FETCH,
+            name,
+            meta.is_locked,
+            self._source.is_page_locked,
+            meta.page_id,
         )
         meta.files = self._try(
-            ErrorKind.FILE_FETCH, name, meta.files, self._files.sync_page_files, name, meta.page_id, meta.files
+            ErrorKind.FILE_FETCH,
+            name,
+            meta.files,
+            self._files.sync_page_files,
+            name,
+            meta.page_id,
+            meta.files,
         )
 
         newest = max((r.revision for r in meta.revisions), default=None)

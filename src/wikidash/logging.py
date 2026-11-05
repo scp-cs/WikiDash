@@ -1,6 +1,7 @@
 import logging
 
-LOGGER_FORMAT_STR = '[%(asctime)s][%(name)s][%(levelname)s]: %(message)s'
+LOGGER_FORMAT_STR = "[%(asctime)s][%(name)s][%(levelname)s]: %(message)s"
+
 
 def create_logger(name: str | None) -> logging.Logger:
     """

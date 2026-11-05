@@ -25,17 +25,21 @@ def _file_row(label: str, value: str) -> str:
     return f"<tr><td>{label}</td><td>{value}</td></tr>"
 
 
-FILE_INFO = "<table>" + "".join(
-    [
-        _file_row("Name", " pic.png "),
-        _file_row("URL", '<a href="http://w.wikidot.com/local--files/p/pic.png">u</a>'),
-        _file_row("Size", "45.47 kB (46561 Bytes)"),
-        _file_row("Mime", "image/png"),
-        _file_row("Content", "PNG image data"),
-        _file_row("Uploader", USER),
-        _file_row("Date", ODATE),
-    ]
-) + "</table>"
+FILE_INFO = (
+    "<table>"
+    + "".join(
+        [
+            _file_row("Name", " pic.png "),
+            _file_row("URL", '<a href="http://w.wikidot.com/local--files/p/pic.png">u</a>'),
+            _file_row("Size", "45.47 kB (46561 Bytes)"),
+            _file_row("Mime", "image/png"),
+            _file_row("Content", "PNG image data"),
+            _file_row("Uploader", USER),
+            _file_row("Date", ODATE),
+        ]
+    )
+    + "</table>"
+)
 
 
 def test_parse_file_info() -> None:

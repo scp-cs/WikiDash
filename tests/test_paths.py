@@ -2,9 +2,7 @@ from wikidash.paths import normalize_page_name, reencode_component, split_file_p
 
 
 def test_reencode_escapes_forbidden_characters() -> None:
-    assert reencode_component('a:b*c?d"e<f>g|h\\i/j') == (
-        "a%3Ab%2Ac%3Fd%22e%3Cf%3Eg%7Ch%5Ci%2Fj"
-    )
+    assert reencode_component('a:b*c?d"e<f>g|h\\i/j') == ("a%3Ab%2Ac%3Fd%22e%3Cf%3Eg%7Ch%5Ci%2Fj")
 
 
 def test_reencode_decodes_first() -> None:

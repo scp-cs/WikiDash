@@ -40,7 +40,7 @@ class WikiRunner:
         client: HttpClient,
         users: UserList,
         status: StatusSink,
-        database: Database | None
+        database: Database | None,
     ) -> None:
         self._wiki = wiki
         self._config = config
@@ -169,6 +169,4 @@ def make_client(config: Config) -> HttpClient:
         if config.ratelimit
         else None
     )
-    return HttpClient(
-        limiter=limiter, http_proxy=config.http_proxy, socks_proxy=config.socks_proxy
-    )
+    return HttpClient(limiter=limiter, http_proxy=config.http_proxy, socks_proxy=config.socks_proxy)

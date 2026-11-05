@@ -1,14 +1,14 @@
 """On-disk layout of one wiki's archive (compatible with the original WikiComma).
 
-    meta/sitemap.json              page name -> last modification (ms)
-    meta/pages/<name>.json         PageMeta
-    meta/page_id_map.json          page id -> page name
-    meta/file_map.json             file id -> {url, path}
-    meta/pending_*.json            work postponed to the next run
-    pages/<name>/<rev>.txt         page source (loose, until compressed)
-    pages/<name>.7z                compressed revisions, members '<rev>.txt'
-    files/<page>/<file id>         downloaded attachments
-    forum/...                      see forum_store.py
+meta/sitemap.json              page name -> last modification (ms)
+meta/pages/<name>.json         PageMeta
+meta/page_id_map.json          page id -> page name
+meta/file_map.json             file id -> {url, path}
+meta/pending_*.json            work postponed to the next run
+pages/<name>/<rev>.txt         page source (loose, until compressed)
+pages/<name>.7z                compressed revisions, members '<rev>.txt'
+files/<page>/<file id>         downloaded attachments
+forum/...                      see forum_store.py
 """
 
 import shutil
@@ -90,7 +90,9 @@ class Workspace:
         names = list(self.revision_archive(page).names())
         if self._loose_dir(page).is_dir():
             names.extend(p.name for p in self._loose_dir(page).iterdir())
-        return {int(n.removesuffix(".txt")) for n in names if n.endswith(".txt") and n[:-4].isdigit()}
+        return {
+            int(n.removesuffix(".txt")) for n in names if n.endswith(".txt") and n[:-4].isdigit()
+        }
 
     def write_revision(self, page: str, revision: int, text: str) -> None:
         directory = self._loose_dir(page)

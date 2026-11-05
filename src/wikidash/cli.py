@@ -17,12 +17,14 @@ from .userlist import UserList
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="wikidash", description="Archive Wikidot wikis.")
-    parser.add_argument("config", nargs="?", help="config file (default: $WIKICOMMA_CONFIG or config.json)")
+    parser.add_argument(
+        "config", nargs="?", help="config file (default: $WIKICOMMA_CONFIG or config.json)"
+    )
     parser.add_argument("-v", "--verbose", action="store_true", help="debug logging")
     args = parser.parse_args(argv)
 
     create_logger(None)
-    
+
     try:
         config = load_config(args.config)
     except (OSError, ValueError, KeyError) as err:
@@ -31,7 +33,9 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     if config.debug_config:
-        logging.getLogger('httpx').setLevel(logging.INFO if config.debug_config.httpx_logging else logging.WARNING)
+        logging.getLogger("httpx").setLevel(
+            logging.INFO if config.debug_config.httpx_logging else logging.WARNING
+        )
 
     return archive(config)
 
@@ -44,7 +48,11 @@ def archive(config: Config) -> int:
         cache_seconds=config.user_list_cache_freshness,
     )
 
-    database = SqliteDatabase(str(config.base_directory / 'wikidash.db'), pragmas={"journal_mode": "wal", "busy_timeout": 5000}, thread_safe=True)
+    database = SqliteDatabase(
+        str(config.base_directory / "wikidash.db"),
+        pragmas={"journal_mode": "wal", "busy_timeout": 5000},
+        thread_safe=True,
+    )
     database.connect()
     bind_tables(database)
     create_tables(database)

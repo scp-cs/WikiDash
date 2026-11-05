@@ -37,7 +37,9 @@ def test_revisions_loose_then_compressed(tmp_path: Path) -> None:
 
 def test_reads_revisions_of_original_archive(tmp_path: Path) -> None:
     (tmp_path / "pages").mkdir()
-    shutil.copy(FIXTURES / "component_admin-list.7z", tmp_path / "pages" / "component_admin-list.7z")
+    shutil.copy(
+        FIXTURES / "component_admin-list.7z", tmp_path / "pages" / "component_admin-list.7z"
+    )
     assert Workspace(tmp_path).local_revisions("component:admin-list") == {0}
 
 

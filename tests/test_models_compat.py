@@ -17,13 +17,17 @@ def _load(path: Path) -> dict[str, object]:
     return data
 
 
-@pytest.mark.parametrize("path", sorted((FIXTURES / "meta_pages").glob("*.json")), ids=lambda p: p.name)
+@pytest.mark.parametrize(
+    "path", sorted((FIXTURES / "meta_pages").glob("*.json")), ids=lambda p: p.name
+)
 def test_page_meta_roundtrip(path: Path) -> None:
     raw = _load(path)
     assert PageMeta.from_dict(raw).to_dict() == raw  # type: ignore[arg-type]
 
 
-@pytest.mark.parametrize("path", sorted((FIXTURES / "meta_forum").glob("*.json")), ids=lambda p: p.name)
+@pytest.mark.parametrize(
+    "path", sorted((FIXTURES / "meta_forum").glob("*.json")), ids=lambda p: p.name
+)
 def test_thread_meta_roundtrip(path: Path) -> None:
     raw = _load(path)
     thread = ThreadMeta.from_dict(raw)  # type: ignore[arg-type]

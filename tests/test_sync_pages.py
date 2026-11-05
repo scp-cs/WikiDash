@@ -23,7 +23,12 @@ def test_new_page_is_fully_archived(tmp_path: Path) -> None:
 
     meta = ws.read_page_meta("scp:001")
     assert meta is not None
-    assert (meta.page_id, meta.title, meta.tags, meta.sitemap_update) == (10, "Title", ["tag"], 1000)
+    assert (meta.page_id, meta.title, meta.tags, meta.sitemap_update) == (
+        10,
+        "Title",
+        ["tag"],
+        1000,
+    )
     assert [r.revision for r in meta.revisions] == [2, 1, 0]  # newest first
     assert meta.votings == [(1, True)] and meta.is_locked is False
     assert [f.file_id for f in meta.files] == [7]
@@ -58,7 +63,10 @@ def test_updated_page_fetches_only_new_revisions(tmp_path: Path) -> None:
     meta = ws.read_page_meta("a")
     assert meta is not None and [r.revision for r in meta.revisions] == [3, 2, 1, 0]
     assert "revisions:1:1" in wikidot.calls  # asked only for revisions above 1
-    assert sorted(c for c in wikidot.calls if c.startswith("source:")) == ["source:102", "source:103"]
+    assert sorted(c for c in wikidot.calls if c.startswith("source:")) == [
+        "source:102",
+        "source:103",
+    ]
 
 
 def test_failed_revision_is_postponed_then_picked_up(tmp_path: Path) -> None:

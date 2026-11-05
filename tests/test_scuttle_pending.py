@@ -31,7 +31,11 @@ def test_scuttle_messages_are_double_encoded() -> None:
     assert decoded[1] == {"tag": "scp-cs", "type": 1, "total": 42}
     assert decoded[2] == {"tag": "scp-cs", "type": 2, "status": 1, "done": 3, "postponed": 0}
     assert decoded[3] == {
-        "tag": "scp-cs", "type": 4, "errorKind": 2, "name": "some-page", "errorStr": "boom"
+        "tag": "scp-cs",
+        "type": 4,
+        "errorKind": 2,
+        "name": "some-page",
+        "errorStr": "boom",
     }
     assert bodies[0] == b'"{\\"tag\\": \\"scp-cs\\", \\"type\\": 0}"'
 

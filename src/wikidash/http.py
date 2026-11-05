@@ -18,23 +18,32 @@ DEFAULT_TIMEOUT = 30.0
 _OK_STATUSES = (200, 206)
 
 # Wikidot serves some pages (and file downloads) only to browser-like agents.
-AGENT_SOFTWARE_NAMES = [SoftwareName.CHROME.value, 
-                        SoftwareName.CHROMIUM.value, 
-                        SoftwareName.EDGE.value, 
-                        SoftwareName.BRAVE.value, 
-                        SoftwareName.OPERA.value, 
-                        SoftwareName.FIREFOX.value, 
-                        SoftwareName.SAFARI.value]
+AGENT_SOFTWARE_NAMES = [
+    SoftwareName.CHROME.value,
+    SoftwareName.CHROMIUM.value,
+    SoftwareName.EDGE.value,
+    SoftwareName.BRAVE.value,
+    SoftwareName.OPERA.value,
+    SoftwareName.FIREFOX.value,
+    SoftwareName.SAFARI.value,
+]
 
-AGENT_OS = [OperatingSystem.ANDROID.value, 
-            OperatingSystem.DARWIN.value, 
-            OperatingSystem.WINDOWS.value, 
-            OperatingSystem.LINUX.value]
+AGENT_OS = [
+    OperatingSystem.ANDROID.value,
+    OperatingSystem.DARWIN.value,
+    OperatingSystem.WINDOWS.value,
+    OperatingSystem.LINUX.value,
+]
 
-AGENT_POPULARITY = [Popularity.POPULAR.value, 
-                    Popularity.COMMON.value]
+AGENT_POPULARITY = [Popularity.POPULAR.value, Popularity.COMMON.value]
 
-agent_rotator = UserAgent(software_names=AGENT_SOFTWARE_NAMES, operating_system=AGENT_SOFTWARE_NAMES, popularity=AGENT_POPULARITY, limit=50)
+agent_rotator = UserAgent(
+    software_names=AGENT_SOFTWARE_NAMES,
+    operating_system=AGENT_SOFTWARE_NAMES,
+    popularity=AGENT_POPULARITY,
+    limit=50,
+)
+
 
 class HttpClient:
     """Sync HTTP client. Thread-safe: httpx.Client is, and the limiter locks."""
@@ -106,16 +115,12 @@ class HttpClient:
     # --- internals -----------------------------------------------------
 
     @retry(attempts=3, delay=1.0, on=httpx.TransportError)
-    def _request(
-        self, method: str, url: str, *, follow_redirects: bool, **kwargs: Any
-    ) -> bytes:
+    def _request(self, method: str, url: str, *, follow_redirects: bool, **kwargs: Any) -> bytes:
         # Each attempt spends a token: a retry is a real request to the server.
         if self._limiter is not None:
             self._limiter.acquire()
         response = self._client.request(method, url, follow_redirects=follow_redirects, **kwargs)
-        if response.status_code in _OK_STATUSES or (
-            not follow_redirects and response.is_redirect
-        ):
+        if response.status_code in _OK_STATUSES or (not follow_redirects and response.is_redirect):
             return response.content
         raise HttpError(response.status_code, url, response.content)
 

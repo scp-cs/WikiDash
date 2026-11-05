@@ -28,9 +28,11 @@ class ProxyConfig:
     address: str
     port: int
 
+
 @dataclass(frozen=True)
 class DebugConfig:
     httpx_logging: bool
+
 
 @dataclass(frozen=True)
 class Config:

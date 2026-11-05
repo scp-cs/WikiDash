@@ -109,7 +109,5 @@ def test_run_all_reports_failures(tmp_path: Path) -> None:
     client = HttpClient(transport=httpx.MockTransport(broken))
     users = UserList(tmp_path / "_users", client, cache_seconds=1)
 
-    failed = run_all(
-        config, lambda wiki: WikiRunner(wiki, config, client, users, StatusSink())
-    )
+    failed = run_all(config, lambda wiki: WikiRunner(wiki, config, client, users, StatusSink()))
     assert failed == ["t"]

@@ -89,7 +89,11 @@ class WikidotApi:
     def revisions(self, page_id: int, *, newer_than: int | None = None) -> list[PageRevision]:
         """Revision list, newest first. With `newer_than`, only revisions above that number."""
         stop = None if newer_than is None else (lambda rev: rev.revision <= newer_than)
-        pages = paginate(lambda page: self._revision_page(page_id, page), key=lambda r: r.revision, stop_when=stop)
+        pages = paginate(
+            lambda page: self._revision_page(page_id, page),
+            key=lambda r: r.revision,
+            stop_when=stop,
+        )
         return list(pages)
 
     def revision_source(self, global_revision: int) -> str:
@@ -135,7 +139,9 @@ class WikidotApi:
     def threads(self, category_id: int, *, newer_than: int | None = None) -> list[ThreadInfo]:
         """All threads of a category; with `newer_than`, only those with a higher id."""
         stop = None if newer_than is None else (lambda thread: thread.id <= newer_than)
-        pages = paginate(lambda page: self.thread_page(category_id, page), key=lambda t: t.id, stop_when=stop)
+        pages = paginate(
+            lambda page: self.thread_page(category_id, page), key=lambda t: t.id, stop_when=stop
+        )
         return list(pages)
 
     def thread_page(self, category_id: int, page: int) -> list[ThreadInfo]:

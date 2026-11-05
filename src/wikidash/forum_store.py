@@ -1,9 +1,9 @@
 """On-disk layout of the forum (compatible with the original WikiComma).
 
-    meta/forum/category/<category>.json      CategoryMeta
-    meta/forum/<category>/<thread>.json      ThreadMeta
-    forum/<category>/<thread>/<post>/<revision id | latest>.html   (loose, until compressed)
-    forum/<category>/<thread>.7z             the same files, members '<post>/<revision>.html'
+meta/forum/category/<category>.json      CategoryMeta
+meta/forum/<category>/<thread>.json      ThreadMeta
+forum/<category>/<thread>/<post>/<revision id | latest>.html   (loose, until compressed)
+forum/<category>/<thread>.7z             the same files, members '<post>/<revision>.html'
 """
 
 import shutil
