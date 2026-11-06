@@ -52,20 +52,11 @@ def archive(config: Config) -> int:
         cache_seconds=config.user_list_cache_freshness,
     )
 
-    database = SqliteDatabase(
-        str(config.base_directory / "wikidash.db"),
-        pragmas={"journal_mode": "wal", "busy_timeout": 5000},
-        thread_safe=True,
-    )
-    database.connect()
-    bind_tables(database)
-    create_tables(database)
-
     def make_runner(wiki: WikiConfig) -> WikiRunner:
         status = (
             ScuttleConnector(wiki.name, config.scuttle_url) if config.scuttle_url else StatusSink()
         )
-        return WikiRunner(wiki, config, make_client(config), users, status, database)
+        return WikiRunner(wiki, config, make_client(config), users, status)
 
     failed = run_all(config, make_runner)
     users.fetch_pending()

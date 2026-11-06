@@ -5,13 +5,14 @@ import time
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 
-from peewee import Database
+from peewee import SqliteDatabase
 
 from .common.errors import WikidashError
 from .common.http import HttpClient
 from .common.logging import create_logger
 from .common.ratelimit import RateLimiter
 from .config import Config, WikiConfig
+from .database import DatabaseInterface
 from .forum_store import ForumStore
 from .progress import Counters, ErrorKind, Status, StatusSink
 from .sync.sync_files import FileSyncer
@@ -39,14 +40,13 @@ class WikiRunner:
         config: Config,
         client: HttpClient,
         users: UserList,
-        status: StatusSink,
-        database: Database | None,
+        status: StatusSink
     ) -> None:
         self._wiki = wiki
         self._config = config
         self._status = status
         self._client = client
-        self._database = database
+        self._database = DatabaseInterface(config.base_directory / wiki.name / 'wikidash.db')
         self._workspace = Workspace(config.base_directory / wiki.name, self._database)
         self._forum_store = ForumStore(config.base_directory / wiki.name)
         ajax = WikidotAjax(
@@ -59,6 +59,7 @@ class WikiRunner:
     def run(self) -> None:
         self._status.handshake()
         try:
+            self._database.initialize()
             self._run_phases()
         except Exception as err:
             self._status.progress(Status.FATAL_ERROR)

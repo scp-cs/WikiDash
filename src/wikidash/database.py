@@ -1,8 +1,9 @@
 import logging
 from collections import defaultdict
 from datetime import datetime
+from pathlib import Path
 
-from peewee import Database
+from peewee import Database, SqliteDatabase, PeeweeException
 
 from .models.forum_models import CategoryMeta, StoredPost, StoredPostRevision, ThreadMeta
 from .models.page_models import FileMeta, PageMeta, PageRevision
@@ -50,7 +51,7 @@ def bind_tables(database: Database) -> None:
 
 # TODO: Figure out the logic for updating this incrementally without reinserting everything every time
 
-class DatabaseRecordSink:
+class DatabaseInterface:
     """
     Keeps data to be stored as database records. Objects are queued for a database write
     and only flushed when a site runner finishes to keep database integrity.
@@ -65,7 +66,11 @@ class DatabaseRecordSink:
     # 6. Forum post revisions
     # 7. (Page => PageTags => PageVotes => PageRevisions) for each page
 
-    def __init__(self) -> None:
+    def __init__(self, database: Path) -> None:
+        database.parent.mkdir(exist_ok=True)
+        self._db = SqliteDatabase(str(database),
+                pragmas={"journal_mode": "wal", "busy_timeout": 5000},
+                thread_safe=True,)
         self._pages: set[PageMeta] = set()
         self._revisions: defaultdict[int, set[PageRevision]] = defaultdict(set[PageRevision])
         self._users: set[User] = set()
@@ -74,6 +79,11 @@ class DatabaseRecordSink:
         self._forum_threads: defaultdict[int, set[ThreadMeta]] = defaultdict(set[ThreadMeta])
         self._forum_revisions: defaultdict[int, set[StoredPostRevision]] = defaultdict(set[StoredPostRevision])
         self._files: set[FileMeta] = set()
+
+    def initialize(self) -> None:
+        self._db.connect()
+        bind_tables(self._db)
+        create_tables(self._db)
 
     def queue_page(self, page: PageMeta) -> None:
         self._pages.add(page)
@@ -226,6 +236,8 @@ class DatabaseRecordSink:
                     title = revision.title,
                     post = post_model
                 ).execute()
+
+
 
     def flush(self) -> None:
 
